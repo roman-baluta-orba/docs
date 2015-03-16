@@ -364,7 +364,7 @@ you will need PHP running as a FastCGI instance::
         server_name example.com;
 
         # root directive should be global
-        root   /var/www/example.com/public/webroot/;
+        root   /var/www/example.com/webroot/;
         index  index.php;
 
         access_log /var/www/example.com/log/access.log;
@@ -375,12 +375,13 @@ you will need PHP running as a FastCGI instance::
         }
 
         location ~ \.php$ {
-            try_files $uri =404;
-            include /etc/nginx/fastcgi_params;
-            fastcgi_pass    127.0.0.1:9000;
-            fastcgi_index   index.php;
-            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        try_files $uri =404;
+        fastcgi_pass unix:/var/run/php5-fpm.sock;
+        fastcgi_index index.php;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         }
+
     }
 
 IIS7 (Windows hosts)
